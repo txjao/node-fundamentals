@@ -1,4 +1,4 @@
-import { Readable } from 'node:stream'
+import { Readable, Writable } from 'node:stream'
 
 class OnToHundredStream extends Readable {
     index = 1;
@@ -13,4 +13,12 @@ class OnToHundredStream extends Readable {
     }
 }
 
-new OnToHundredStream().pipe(process.stdout);
+class MultiplyByTwoStream extends Writable {
+    
+    _write(chunk, encoding, callback){
+        console.log(Number(chunk.toString()) * 2);
+        callback();
+    }
+}
+
+new OnToHundredStream().pipe(new MultiplyByTwoStream());
