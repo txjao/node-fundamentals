@@ -1,6 +1,6 @@
 import { Readable, Transform, Writable } from 'node:stream'
 
-class OnToHundredStream extends Readable {
+class OneToHundredStream extends Readable {
     index = 1;
 
     _read() {
@@ -29,6 +29,6 @@ class NegateStream extends Transform {
     }
 }
 
-new OnToHundredStream()
+new OneToHundredStream()
     .pipe(new NegateStream())
     .pipe(new MultiplyByTwoStream());
