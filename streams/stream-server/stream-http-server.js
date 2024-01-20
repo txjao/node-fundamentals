@@ -1,5 +1,5 @@
 import http from 'node:http';
-import { Transform } from 'node:stream';
+import { Transform, Writable } from 'node:stream';
 
 class NegateStream extends Transform {
     _transform(chunk, encoding, callback) {
