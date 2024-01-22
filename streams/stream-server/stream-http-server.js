@@ -1,5 +1,5 @@
 import http from 'node:http';
-import { Transform, Writable } from 'node:stream';
+import { Readable, Transform, Writable } from 'node:stream';
 
 class NegateStream extends Transform {
     _transform(chunk, encoding, callback) {
@@ -18,12 +18,22 @@ class MultiplyByTwoStream extends Writable {
     }
 }
 
+class PairStream extends Writable {
+
+    _write(chunk, encoding, callback) {
+        if (Number(chunk % 2 === 0)) {
+            console.log(Number(chunk.toString()));
+        }
+        callback();
+    }
+}
+
 
 const server = http.createServer((req, res) => {
     req.on('data', (chunk) => chunk)
+        .pipe(new PairStream())
         .pipe(new NegateStream())
-        .pipe(new MultiplyByTwoStream())
         .pipe(res)
 });
 
-server.listen(3334);
+server.listen(5000);
